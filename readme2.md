@@ -1,8 +1,5 @@
 # TPlink-countdown-timer
 
-
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 The Tplink Countdown Timer is a series of API calls to the TPLINK API Endpoint that automatically starts a user-defined countdown timer to any of your TP Link devices.
 
 

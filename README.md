@@ -5,16 +5,20 @@ The Tplink Countdown Timer is a series of API calls to the TPLINK API Endpoint t
 
 # Why?
 
-When we had our first child, I had heard of wifi-enabled coffee makers.  I made the argument that wouldn't it be nice to wake up in the morning, and roll over, and turn on the coffee when we woke up. My wife thought it was a dumb idea but since I talked about it so much, she started to look them up, and found most got bad reviews.  She came across the TPLINK so she got me one to try it out.
+When we had our first child, I had heard of wifi-enabled coffee makers.  I made the argument that wouldn't it be nice to wake up in the morning, and roll over, and turn on the coffee. My wife thought it was a dumb idea but since I talked about it so much, she started to look them up, and found most got bad reviews.  She came across the TPLINK smart plug (HS105) so she got me one to try it out.
 
 # The Problem
 
-The TP Link Kasa app allows you to set schedules and turn on/off devices, and lets you start a timer after a device turns on.  Since coffee makers turn off after a certain amount of time, that became cumbersome to start every time we turned on the coffee, so I wrote these series of API calls.
+The TP Link Kasa app allows you to set schedules and turn on/off devices, and lets you start a timer after a device turns on.  Since coffee makers turn off after a certain amount of time (2-ish Hours), that became cumbersome to start every time we turned on the coffee, so I wrote these series of API calls.
 
+# The Solution
+
+I have the API calls set to run every 5 minutes. It looks to see if the smartplug is "on" and if a timer has been started.  If the smartplug is on, and the timer is off, start the timer.  If the smart plug is on, and the timer is activated, do nothing.  If the smart plug is off, do nothing.
   
 # Requirements
 
   - A non-programmable coffee maker.  It can only be an on/off one
+  - A TP-link smart plug
   - A cron job or scheduled task to initiate the code at a set interval
   - A unique UUID (https://www.uuidgenerator.net/)
 

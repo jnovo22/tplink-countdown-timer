@@ -1,5 +1,10 @@
  <?php 
-
+	/*** NEW FEATURE:  TEXT WHEN YOUR COFFEE IS READY! Why?  Why not? ***/
+	require '<your library location>/Twilio/autoload.php';
+	use Twilio\Rest\Client;
+ 	$setTimer = 7080;  //118 minutes = length of time coffee maker should be on
+ 	$coffeeReadyTime = 900;  //15 minutes = 900 seconds
+ 	$notificationTime = 6180;  //About the time coffee would be ready (could also be $setTimer - $coffeeReadyTime, but while I was troubleshooting, I hardcoded the value)
  	if (isset($_GET['manual'])){
 		//Debugging using manual URL variable, include database connection here
 	}
@@ -86,7 +91,31 @@ if ($status ==1){
 
 	//sanity check, dump the time remaining
 	echo "Time Remaining: $timeremain";
-	
+	//if Time Remaining is less than the notification time (about how much time has passed that coffee would be ready (see above))
+	//And a notification hasn't already been sent for this timer
+	//Send a text to let someone know coffee is ready!
+	if ($timeremain<=$notificationTime && $notificationStatus==0){
+		// Include the bundled autoload from the Twilio PHP Helper Library
+
+		// Your Account SID and Auth Token from twilio.com/console
+		$account_sid = '<your Twilio ID>';
+		$auth_token = '<your twilio token>';
+		// In production, these should be environment variables. E.g.:
+		// $auth_token = $_ENV["TWILIO_ACCOUNT_SID"]
+		// A Twilio number you own with SMS capabilities
+		$twilio_number = "<number authorized to send texts>";
+		$client = new Client($account_sid, $auth_token);
+		$client->messages->create(
+		    // Where to send a text message (your cell phone?)
+		    '<Thenumber you want to receive the text>',
+		    array(
+		        'from' => $twilio_number,
+		        'body' => 'Coffee is ready!'
+		    )
+		);
+		//setting notification status to 1, so texts aren't repeating
+		$resetNotification = mysqli_query($link,"update tplink_devices set notification_sent = 1 where device_id = '$deviceid'");
+	}
 	//if time remaining is zero, and the status device is on...
 	if ($timeremain ==0 && $status==1){
 		//Turn on 2 hour timer..
@@ -101,7 +130,7 @@ if ($status ==1){
 											"act"=>0,
 											"enable"=>1,//enable rule
 											"id"=>$ruleid,//id of rule
-											"delay"=>7080//in seconds.  See more below.
+											"delay"=>$setTimer//in seconds.  See more below.
 										)
 		 					)
 		 				))
@@ -113,7 +142,10 @@ if ($status ==1){
 	}
 
 }
-
+//if device is not turned on, reset notification status
+if ($status ==0){
+	$resetNotification = mysqli_query($link,"update tplink_devices set notification_sent = 0 where device_id = '$deviceid'");
+}
 /**************************
 
 I have this running on a 5 minute interval in a cron job, for a 2 hour countdown. I ran into an issue where at the end of the timer,

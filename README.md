@@ -2,10 +2,16 @@
 
 The Tplink Countdown Timer is a series of API calls to the TPLINK API Endpoint that automatically starts a user-defined countdown timer to any of your TP Link devices.
 
+# New!
+
+Added twilio API for texting for when coffee is ready!
 
 # Why?
 
 When we had our first child, I had heard of wifi-enabled coffee makers.  I made the argument that wouldn't it be nice to wake up in the morning, and roll over, and turn on the coffee. My wife thought it was a dumb idea but since I talked about it so much, she started to look them up, and found most got bad reviews.  She came across the TPLINK smart plug (HS105) so she got me one to try it out.
+
+# Why add Twilio?
+Since working from home full time, I usually get up before everyone else, and the coffee doesn't start until well after I'm awake.  I'll get busy with something, and lose track of time, and I missed out on some coffee time.  It'll now text me when the coffee is done brewing and will remind me to go get some!
 
 # The Problem
 

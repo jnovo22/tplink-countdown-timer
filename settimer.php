@@ -94,7 +94,7 @@ if ($status ==1){
 	//if Time Remaining is less than the notification time (about how much time has passed that coffee would be ready (see above))
 	//And a notification hasn't already been sent for this timer
 	//Send a text to let someone know coffee is ready!
-	if ($timeremain<=$notificationTime && $notificationStatus==0){
+	if ($timeremain<=$notificationTime && $notificationStatus==0 && $timeremain > 0){
 		// Include the bundled autoload from the Twilio PHP Helper Library
 
 		// Your Account SID and Auth Token from twilio.com/console
